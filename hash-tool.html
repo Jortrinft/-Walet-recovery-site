@@ -1,0 +1,25 @@
+
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>ابزار هش SHA-256</title>
+</head>
+<body>
+    <h2>تبدیل کلمه به هش SHA-256</h2>
+    <input type="text" id="inputText" placeholder="عبارت را وارد کنید">
+    <button onclick="generateHash()">تولید هش</button>
+    <p id="hashResult"></p>
+
+    <script>
+    async function generateHash() {
+        const input = document.getElementById('inputText').value;
+        const msgUint8 = new TextEncoder().encode(input);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        document.getElementById('hashResult').innerText = `هش: ${hashHex}`;
+    }
+    </script>
+</body>
+</html>
